@@ -3,7 +3,6 @@ import Register from '../register/register'
 import Login from '../login/login';
 import JobPost from '../job/job-post';
 import { useNavigate } from 'react-router-dom';
-import { Toast } from 'react-bootstrap';
 import { toast } from '../../../helper/swal';
 
 const Menu = () => {

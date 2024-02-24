@@ -29,9 +29,9 @@ const Home = () => {
 
     return (
 
-        <div fluid className="h-screen bg-purple-100 ">
+        <div fluid className="h-screen bg-gradient-to-b from-purple-300 via-purple-200 to-white ">
 
-            <div className="h-48 bg-blue-950  flex  justify-center shadow-2xl ">
+            <div className="h-60 bg-blue-950  flex  justify-center shadow-2xl ">
                 <div className='h-30 w-30 flex left-3 mt-4'>
                     <div className='h-20 w-20 hover:opacity-30  hover:bg-gray-100 rounded-full flex justify-center items-center ml-10'>
                         <img className=' rounded-full cursor-pointer w-20 h-20 absolute ' src="https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_1280.jpg" alt="" />
@@ -50,7 +50,7 @@ const Home = () => {
                 </div>
 
 
-                <div className=" h-[84vh] w-[94%] bg-gradient-to-b from-pink-100 via-pink-50 to-white absolute bottom-22  top-28 rounded  shadow-slate-900  shadow-xl " >
+                <div className=" h-[84vh] w-[94%] bg-gradient-to-b from-purple-100 via-slate-50 to-white absolute bottom-22  top-28 rounded  shadow-slate-900  shadow-xl " >
 
                     <JobSerach />
                     {/* <MyStatus/> */}

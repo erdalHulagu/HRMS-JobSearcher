@@ -1,40 +1,51 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 const JobCard = () => {
-    const navigate = useNavigate();
 
-    const hadleMessageProfile = () => {
+    const [text, setText] = useState('');
+    const maxLength = 100;
+  
+    const handleChange = (event) => {
+      const inputValue = event.target.value;
+      if (inputValue.length <= maxLength) {
+        setText(inputValue);
+      }
+    };
 
-        navigate('/Profile');
 
-
-    }
 
 
     return (
 
-        <div onClick={hadleMessageProfile} className='w-[90%] h-[30%] flex justify-center items-center m-3 shadow-slate-800 shadow-md hover: text-pink-300  hover:bg-slate-300 rounded'>
-            <div className=' flex justify-between items-center w-full h-full'>
-                <div className='w-[30%] h-30 rounded-full flex flex-col items-center '>
-                    <img className=' hover:opacity-40 cursor-pointer w-14 h-14 rounded ' src="https://cdn.pixabay.com/photo/2023/07/11/13/28/bird-8120621_1280.jpg " alt="erdal" />{/*https://cdn.pixabay.com/photo/2023/07/11/13/28/bird-8120621_1280.jpg */}
+        <div className='cursor-pointer w-66 h-[50%] flex flex-col justify-center items-center m-3 shadow-slate-800 shadow-md  hover:bg-purple-200 rounded'>
+            <div className=' flex w-full h-[50%]'>
+                <div className='w-[40%] m-1 h-full rounded flex flex-col items-start '>
+                    <img className=' shadow-slate-800 shadow-md cursor-pointer w-24 h-24  rounded ' src="https://cdn.pixabay.com/photo/2023/07/11/13/28/bird-8120621_1280.jpg " alt="" />
+                    <span className='text-xs mt-1 font-extrabold'>Company name</span>
                 </div>
-                <div className='w-[70%]'>
-                    <span className='text-blue-950 hover:text-red-700 cursor-pointer font-bold '>Job Name</span>
-                    <div className='flex h-[5%]'>
-                        <div className='flex items-center mx-2 justify-center bg-slate-200  w-[40%] border-2 border-slate-700 rounded-xl '>
-                            <span className='text-blue-950 text-xs my-2 font-bold'>min price</span>
+                <div className='w-[65%] h-full flex flex-col items-center mx-1'>
+                    <div className='w-full h-8 flex justify-center '>
+                        <span className='text-gray-700 cursor-pointer font-bold h-10'>Job Name</span>
+                    </div>
+                    <div className='flex h-10 w-max-[50%]'>
+                        <div className=' shadow-slate-800 shadow-md flex items-center justify-center bg-pink-50  p-1 w-15  border-2 border-gray-700 rounded-3xl '>
+                            <span className='text-gray-700 text-xs  font-bold '>£30k</span>
                         </div>
-                        <div className='flex items-center justify-center  bg-slate-200  w-[40%] border-2 border-slate-700 rounded-xl '>
-
-                            <span className='text-blue-950 text-xs my-2 font-bold'>max price</span>
+                        <div className=' shadow-slate-800 shadow-md flex items-center justify-center  bg-pink-50 ml-1 w-15  border-2 border-gray-700 rounded-3xl '>
+                            <span className='text-gray-700 text-xs p-1 font-bold'>£40k</span>
                         </div>
                     </div>
 
-
-                    <p className='text-blue-950 text-xs '>des</p>
-
                 </div>
+
+            </div>
+            <div className='w-[90%] h-40 m-1 overflow-hidden'>
+              
+
+                <span className=' text-gray-600 text-sm  w-full h-full '>
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ducimus aspernatur reiciendis facilis? Explicabo ipsum et corrupti modi, totam error molestiae doloremque consectetur sed repudiandae vero optio accusantium dolorem maxime hic!Lorem</span>
+
 
             </div>
         </div>

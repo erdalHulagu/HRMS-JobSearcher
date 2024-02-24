@@ -5,48 +5,78 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import JobCard from './job-card';
+import JobDetails from './job-details';
+import { useState } from 'react';
 
 function JobSerach() {
+    const [query, setQuery] = useState(false)
+    const [search, setSearch] = useState("")
+
+    const handleSearch = () => { }
+
+    const handleQuery = () => {
+        setQuery(true);
+    }
+
     return (
         <div className='w-full h-full '>
-            <div className='h-[16%] bg-black'>
+            <div className='h-[16%] '>
 
 
                 {/* tap bar */}
-                <Navbar className="rounded-t  shadow-slate-900  shadow-md  h-40 w-full bg-slate-200 justify-content-between">
-                    <Form className='mx-10 w-[40%] '>
-                        <InputGroup className=' shadow-slate-900  shadow-md'>
-                            <InputGroup.Text style={{ color: 'darkblue', fontWeight: 'bold', fontSize: 'large' }} className=' h-20' id="basic-addon1">Job Name</InputGroup.Text>
+                <Navbar className="rounded-t  shadow-slate-900  shadow-md  h-40 w-full bg-purple-50 justify-content-between">
+                    <Form className=' mx-10 w-[40%] ' >
+                        <InputGroup  className=' shadow-slate-900  shadow-md rounded'>
+                            <InputGroup.Text style={{background:'', color: 'gray', fontWeight: 'bold', fontSize: 'large' }} className=' h-20' id="basic-addon1">Job Name</InputGroup.Text>
                             <Form.Control className='bg-blue-900'
                                 placeholder="search"
                                 aria-label="Username"
-                                aria-describedby="basic-addon1"
+                                aria-describedby="basic-addon"
+                                onChange={(e) => {
+                                    setSearch(e.target.value)
+                                    handleSearch(e.target.value)
+                                }}
+                                value={search}
                             />
                         </InputGroup>
                     </Form>
                     <Form inline className='mx-10 w-[40%]'>
-                        <InputGroup className=' shadow-slate-900  shadow-md'>
-                            <InputGroup.Text style={{ color: 'darkblue', fontWeight: 'bold', fontSize: 'large' }} className='h-20 ' id="basic-addon1">City</InputGroup.Text>
+                        <InputGroup className=' shadow-slate-900  shadow-md rounded'>
+                            <InputGroup.Text style={{ color: 'gray', fontWeight: 'bold', fontSize: 'large' }} className='h-20 ' id="basic-addon1">City</InputGroup.Text>
                             <Form.Control
                                 placeholder="search"
                                 aria-label="Username"
                                 aria-describedby="basic-addon1"
+                                onChange={(e) => {
+                                    setSearch(e.target.value)
+                                    handleSearch(e.target.value)
+                                }}
+                                value={search}
                             />
                         </InputGroup>
                     </Form>
                 </Navbar>
             </div >
             {/* left bar */}
-            <div className='h-[84%] w-[50%] bg-slate-100 overflow-scroll'>
-            {[...Array(50)].map((photo) => <Col   ><JobCard />  </Col>)}
-                
+            
+            <div className='h-[84%] w-full flex'>
+                <div className='scrollbar-track-slate-400 w-[50%] hover:h-full overflow-hidden overflow-y-scroll ' style={{ scrollbarWidth: 'thin' }}>
+                {search && [...Array(50)].map((photo) => <Col   ><JobCard />  </Col>)}
+                </div>
+{/* right bar */}
+                <div className=' h-full w-[50%] overflow-hidden overflow-y-scroll'  style={{ scrollbarWidth: 'thin' }} >
 
-            </div>
+                    <JobDetails />
 
-            {/* right bar */}
-            <div>
+                </div>
 
-            </div>
+
+
+
+            </div >
+
+            
+
         </div>
 
     );
