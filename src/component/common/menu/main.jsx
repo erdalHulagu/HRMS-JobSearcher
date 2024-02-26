@@ -3,7 +3,6 @@ import Register from '../register/register'
 import Login from '../login/login';
 import JobPost from '../job/job-post';
 import { useNavigate } from 'react-router-dom';
-import { toast } from '../../../helper/swal';
 
 const Menu = () => {
 
@@ -11,37 +10,13 @@ const Menu = () => {
     const menuItems = {
         register: <Register />,
         login: <Login />,
-        jobPost: <JobPost />
+        jobPost: <JobPost/>
     }; 
 
 
     const navigater = useNavigate();
     const [activeMenuItem, setActiveMenuItem] = useState(null);
-   const [submit, setSubmit] = useState(false);
    
-
-
-   const handleSubmit = () => {
-    setSubmit(true);
-    if (activeMenuItem === 'login' && submit) { 
-        toast('login is success')
-        navigater('/home');
-
-    }else if (activeMenuItem === 'jobPost' && submit){
-        toast('job posted succesfully')
-          
-    }else if (activeMenuItem === 'register'&& submit){
-        toast('register is success')
-        setActiveMenuItem('login')
-
-    }
-
-
-};
-
-
-
-    
     const handleMenuItemClick = (menuItem) => {
         setActiveMenuItem(menuItem); 
     };
@@ -49,7 +24,7 @@ const Menu = () => {
 
     return (
 
-        <div fluid className="h-screen bg-pink-100 ">
+        <div  className="h-screen bg-pink-100 ">
             <div className="h-48 bg-blue-950  flex  justify-center shadow-2xl ">
                 <div className='h-30 w-30 flex left-3 mt-4 '>
                     <div className='h-16 w-48  flex items-center '>
@@ -66,20 +41,13 @@ const Menu = () => {
                         <img className='rounded object-cover absolute w-full h-full' src="https://media.istockphoto.com/id/1327187531/tr/vektör/global-network-connection-world-map-point-and-line-composition-concept-of-global-business.jpg?s=612x612&w=0&k=20&c=vfLYnJcaXytQn-7D4XYJQZcbXrvvUjHrujtJAl6JoeA=" alt="" />
                         <h5 className='top-20 text-bold absolute text-red-600'>- welcome to HRMS-Personel jobs search -</h5>
                     </div>
-                    <div className='opacity-70 absolute rounded bg-pink-50 w-[80%] max-w-lg mt-20 h-[80%]  p-10 flex flex-col items-center justify-center  shadow-slate-950  shadow-2xl'>
+                    <div className='opacity-80 absolute rounded bg-pink-50 w-[80%] max-w-lg mt-20 h-[84%]  p-10 flex flex-col items-center justify-center  shadow-slate-950  shadow-2xl'>
                         <div className='w-full h-[80%] flex items-center justify-center'>
                         {menuItems[activeMenuItem]}
                         </div>
-                        
-                        {activeMenuItem &&
-                            <div className="w-full h-[20%] flex items-end justify-end ">
-                            <div>
-                                <button className="bottom-0  h-10  w-24 rounded-lg bg-red-800 text-pink-300  hover:text-red-900 hover:bg-pink-200   " type="submit" onClick={handleSubmit}>
-                                    Submit
-                                </button>
-                            </div>
+                      
 
-                        </div>}
+                       
                     </div>
                 </div>
             </div>

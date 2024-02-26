@@ -6,17 +6,52 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import JobCard from './job-card';
 import JobDetails from './job-details';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { toast } from '../../../helper/swal';
 
 function JobSerach() {
     const [query, setQuery] = useState(false)
     const [search, setSearch] = useState("")
+    const [loading, setLoading] = useState(false);
+    const [jobs, setJobs] = useState([]);
+    const [selectedJob, setSelectedJob] = useState(null)
 
-    const handleSearch = () => { }
+   
+        
+    
+    useEffect(() => {
+    
+        const fetchJobs = async () => {
+            setLoading(true);
+            try {
+                const resp = await axios.get("http://localhost:8080/jobs/all",{ params: { query: search } });
+                setJobs(resp.data);
+                
+            } catch (err) {
+                console.log(err);
+                toast("try again")
+            } finally {
+                setLoading(false);
+            }
+        };
+    
+        if (query) {
+            fetchJobs();
+        }
+    
+        // fetchJobs();
+    },  [query, search]);
 
-    const handleQuery = () => {
+
+    const handleSearch = () => {
         setQuery(true);
-    }
+    };
+   
+    const handleJobCardClick = (job) => {
+        setSelectedJob(job); // Tıklanan işin detaylarını state'e ayarla
+    };
+
 
     return (
         <div className='w-full h-full '>
@@ -58,15 +93,21 @@ function JobSerach() {
                 </Navbar>
             </div >
             {/* left bar */}
-            
+            {/* <button onClick={fetchJobs} className='bg-red-900'>button</button> */}
             <div className='h-[84%] w-full flex'>
                 <div className='scrollbar-track-slate-400 w-[50%] hover:h-full overflow-hidden overflow-y-scroll ' style={{ scrollbarWidth: 'thin' }}>
-                {search && [...Array(50)].map((photo) => <Col   ><JobCard />  </Col>)}
+                {jobs.map((job, index) => (<Col key={index}><JobCard  id={job.id}
+                            jobName={job.jobName}
+                            description={job.description}
+                            onClick={()=>handleJobCardClick(job)} job={job} /></Col>
+                    ))}
                 </div>
 {/* right bar */}
                 <div className=' h-full w-[50%] overflow-hidden overflow-y-scroll'  style={{ scrollbarWidth: 'thin' }} >
 
-                    <JobDetails />
+                {selectedJob && <JobDetails job={selectedJob} id={selectedJob.id} 
+                                            jobName={selectedJob.jobName}
+                                            description={selectedJob.description}/>}
 
                 </div>
 

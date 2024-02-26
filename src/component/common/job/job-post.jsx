@@ -1,36 +1,41 @@
 // import axios from "axios";
 import { useFormik } from "formik";
-import React from "react";
-import { Container, Form } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, Container, Form, Spinner } from "react-bootstrap";
 import * as Yup from "yup";
 import axios from "axios";
+import { toast } from "../../../helper/swal";
 
 const JobPost = () => {
-
+    const [loading, setLoading] = useState(false);
 
     const initialValues = {
-        companyName: "",
+        // companyName: "",
         jobName: "",
         description: "",
-        quantity: "",
-        remember: false,
+        quantity: ""
     };
     const validationSchema = Yup.object({
-        email: Yup.string()
-            .email("Type in a valid email adress")
-            .required("Don't leave blank"),
-        password: Yup.string().required("Type in password"),
+        // companyName: Yup.string().required("Don't leave blank"),
+        jobName: Yup.string().required("Don't leave blank"),
+        quantity: Yup.string().required("Don't leave blank"),
+        description: Yup.string().required("Don't leave blank"),
     });
-
+    
     const onSubmit = async (values) => {
+        setLoading(true);
         try {
-            const resp = await axios.post("https://carrental-v3-backend.herokuapp.com/login", values);
+            const resp = await axios.post("http://localhost:8080/jobs/createJob", values);
             console.log(resp.data);
-            localStorage.setItem("token", resp.data.token)
+            toast("Job sent successfully")
+            // localStorage.setItem("token", resp.data.token)
 
         } catch (err) {
             console.log(err);
-        }
+            toast('oops')
+        } finally {
+            setLoading(false);
+          }
     };
 
     const formik = useFormik({
@@ -43,7 +48,7 @@ const JobPost = () => {
         <Container className="mt-3 ">
             <Form noValidate onSubmit={formik.handleSubmit}>
 
-                <Form.Group className="mb-3" controlId="formBasicEmail">
+                {/* <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Company Name</Form.Label>
                     <Form.Control
                         type="text"
@@ -55,7 +60,7 @@ const JobPost = () => {
                     <Form.Control.Feedback type="invalid">
                         {formik.errors.companyName}
                     </Form.Control.Feedback>
-                </Form.Group>
+                </Form.Group> */}
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>Job Name</Form.Label>
                     <Form.Control
@@ -95,6 +100,13 @@ const JobPost = () => {
                         {formik.errors.jobName}
                     </Form.Control.Feedback>
                 </Form.Group>
+                <button
+                    className=" bottom-0 right-0 h-10  w-24 rounded-lg bg-red-800 text-pink-300  hover:text-red-900 hover:bg-pink-200 "
+                    type="submit"
+                    disabled={!(formik.dirty && formik.isValid) || loading}
+                >
+                    {loading && <Spinner animation="border" size="sm" />} send 
+                </button>
             </Form>
         </Container>
 

@@ -1,22 +1,24 @@
 
 import axios from "axios";
 import { useFormik } from "formik";
-import React from "react";
-import {  Container, Form } from "react-bootstrap";
+import React, { useState } from "react";
+import {  Container, Form, Spinner } from "react-bootstrap";
 import * as Yup from "yup";
+import { toast } from "../../../helper/swal";
 
-const Register = ({handleSubmit}) => {
-    
+const Register = () => {
+    const [loading, setLoading] = useState(false);
 
     const initialValues = {
-        firstname: "",
-        lastname: "",
-        personalId:"",
+        firstName: "",
+        lastName: "",
+        birth: "",
+        personalId: "",
         email: "",
         password: "",
-        reTypePassword:"",
-        phonenumber: "",
-        remember: false,
+        reTypePassword: "",
+        phone: "",
+        webside: "",
     };
 
     const validationSchema = Yup.object({
@@ -29,14 +31,18 @@ const Register = ({handleSubmit}) => {
     });
 
     const onSubmit = async (values) => {
+        setLoading(true);
+        
         try {
-            const resp = await axios.post("https://carrental-v3-backend.herokuapp.com/login", values);
+            const resp = await axios.post("http://localhost:8080/jobSeekers/createJobSeeker", values);
             console.log(resp.data);
-            localStorage.setItem("token", resp.data.token)
+            toast("jobSeeker created succesfully")
 
         } catch (err) {
             console.log(err);
-            // alert(err.response.data.message);
+            toast("OOPS! something gone wrong")
+        }finally{
+            setLoading(false);
         }
     };
 
@@ -54,12 +60,12 @@ const Register = ({handleSubmit}) => {
                     <Form.Control
                         type="text"
                         placeholder="First Name"
-                        {...formik.getFieldProps("firstname")}
-                        isInvalid={formik.touched.firstname && !!formik.errors.firstname}
-                        isValid={formik.touched.firstname && !formik.errors.firstname}
+                        {...formik.getFieldProps("firstName")}
+                        isInvalid={formik.touched.firstName && !!formik.errors.firstName}
+                        isValid={formik.touched.firstName && !formik.errors.firstName}
                     />
                     <Form.Control.Feedback type="invalid">
-                        {formik.errors.name}
+                        {formik.errors.firstName}
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-2" controlId="formBasicEmail">
@@ -67,12 +73,12 @@ const Register = ({handleSubmit}) => {
                     <Form.Control
                         type="text"
                         placeholder="LastName"
-                        {...formik.getFieldProps("lastname")}
-                        isInvalid={formik.touched.lastname && !!formik.errors.lastname}
-                        isValid={formik.touched.lastname && !formik.errors.lastname}
+                        {...formik.getFieldProps("lastName")}
+                        isInvalid={formik.touched.lastName && !!formik.errors.lastName}
+                        isValid={formik.touched.lastName && !formik.errors.lastName}
                     />
                     <Form.Control.Feedback type="invalid">
-                        {formik.errors.lastname}
+                        {formik.errors.lastName}
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-2" controlId="formBasicEmail">
@@ -85,7 +91,20 @@ const Register = ({handleSubmit}) => {
                         isValid={formik.touched.personalId && !formik.errors.personalId}
                     />
                     <Form.Control.Feedback type="invalid">
-                        {formik.errors.name}
+                        {formik.errors.personalId}
+                    </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group className="mb-2" controlId="formBasicEmail">
+                    <Form.Label>Date of Birth</Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="Date of Birth"
+                        {...formik.getFieldProps("birth")}
+                        isInvalid={formik.touched.birth && !!formik.errors.birth}
+                        isValid={formik.touched.birth && !formik.errors.birth}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                        {formik.errors.birth}
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-2" controlId="formBasicEmail">
@@ -117,14 +136,14 @@ const Register = ({handleSubmit}) => {
                 <Form.Group className="mb-2" controlId="formBasicEmail">
                     <Form.Label>Retype Password</Form.Label>
                     <Form.Control
-                        type="text"
+                        type="password"
                         placeholder="Retype Password"
-                        {...formik.getFieldProps("ReTypePassword")}
+                        {...formik.getFieldProps("reTypePassword")}
                         isInvalid={formik.touched.reTypePassword && !!formik.errors.reTypePassword}
                         isValid={formik.touched.reTypePassword && !formik.errors.reTypePassword}
                     />
                     <Form.Control.Feedback type="invalid">
-                        {formik.errors.name}
+                        {formik.errors.reTypePassword}
                     </Form.Control.Feedback>
                 </Form.Group>
                 
@@ -134,14 +153,34 @@ const Register = ({handleSubmit}) => {
                     <Form.Control
                         type="text"
                         placeholder="Phone Number"
-                        {...formik.getFieldProps("phonenumber")}
-                        isInvalid={formik.touched.phonenumber && !!formik.errors.phonenumber}
-                        isValid={formik.touched.phonenumber && !formik.errors.phonenumber}
+                        {...formik.getFieldProps("phone")}
+                        isInvalid={formik.touched.phone && !!formik.errors.phone}
+                        isValid={formik.touched.phone && !formik.errors.phone}
                     />
                     <Form.Control.Feedback type="invalid">
-                        {formik.errors.phonenumber}
+                        {formik.errors.phone}
                     </Form.Control.Feedback>
                 </Form.Group>
+                <Form.Group className="mb-2" controlId="formBasicEmail">
+                    <Form.Label>Web Side</Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="Web Side"
+                        {...formik.getFieldProps("webside")}
+                        isInvalid={formik.touched.webside && !!formik.errors.webside}
+                        isValid={formik.touched.webside && !formik.errors.webside}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                        {formik.errors.webside}
+                    </Form.Control.Feedback>
+                </Form.Group>
+                <button
+                    className="bottom-0 right-0 h-10  w-24 rounded-lg bg-red-800 text-pink-300  hover:text-red-900 hover:bg-pink-200 "
+                    type="submit"
+                    disabled={!(formik.dirty && formik.isValid) || loading}
+                >
+                    {loading && <Spinner animation="border" size="sm" />} send 
+                </button>
             </Form>
         </Container>
     );
