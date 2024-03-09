@@ -1,13 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BiSolidLeftArrowSquare} from 'react-icons/bi'
 import { IoIosHome} from 'react-icons/io';
 import { MdPhotoCamera } from 'react-icons/md';
 import { Col} from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
-import JobCard from '../../common/job-search/job-card';
+import { toast } from '../../../helper/swal';
+import axios from 'axios';
 
 const MyProfile = () => {
     const navigate = useNavigate();
+
+    const [search, setSearch] = useState("")
+    const [loading, setLoading] = useState(false);
+    const [jobSeeker, setJobSeeker] = useState([]);
 
 
     //--------------------------------------
@@ -19,6 +24,24 @@ const MyProfile = () => {
         navigate("/");
     }
 
+    useEffect(() => {
+        const fetchJobSeeker = async () => {
+            setLoading(true);
+            try {
+                const resp = await axios.get("http://localhost:8080/jobSeekers/402");
+                setJobSeeker(resp.data);
+            } catch (err) {
+                console.log(err);
+                toast("try again")
+            } finally {
+                setLoading(false);
+            }
+        };
+    
+        fetchJobSeeker();
+    }, [search]);
+// bunlari yapacagim
+   
 
 
     return (
@@ -44,7 +67,7 @@ const MyProfile = () => {
 
                     <div className='w-full h-full rounded flex'>
                         {/* left bar */}
-                        <div className='w-[40%] h-full rounded '>
+                        <div className='max-w-md w-[50%] h-full rounded border-r border-purple-50'>
                             <div className='w-full h-full flex-col flex items-center '>
                                 <div className='border-r w-full  h-[25%] top-0 flex flex-col justify-center rounded'>
 
@@ -60,27 +83,30 @@ const MyProfile = () => {
                                 <div className='w-full  h-[40%] rounded-bl-lg'>
                                     <div className='w-[94%] flex flex-col  border-slate-400 mx-[3%] '>
 
-                                        <div className='border-b border-gray-300 flex flex-col w-[90%] h-16 ml-[10%]'>
-                                            <span className='text-red-900 '>Name </span>
+                                        <div className='border-y border-gray-400 flex flex-col w-[90%] h-16 ml-[10%]'>
+                                            <span className='text-red-900 '>First Name </span>
+                                            <span className='text-blue-950 text-lg '>{jobSeeker.firstName} </span>
 
                                         </div>
-                                        <div className='border-b border-gray-300 flex flex-col w-[90%] h-16 ml-[10%]'>
-                                            <span className='text-red-900 '>Last name </span>
+                                        <div className='border-b border-gray-400 flex flex-col w-[90%] h-16 ml-[10%]'>
+                                            <span className='text-red-900 '>Last name :</span>
+                                            <span className='text-blue-950 text-lg'>{jobSeeker.lastName} </span>
 
                                         </div>
-                                        <div className='border-b border-gray-300 flex flex-col w-[90%] h-16 ml-[10%]'>
-                                            <span className='text-red-900 '>Phone Number </span>
+                                        <div className='border-b border-gray-400 flex flex-col w-[90%] h-16 ml-[10%]'>
+                                            <span className='text-red-900 '>Birth </span>
+                                            <span className='text-blue-950 text-lg'>{jobSeeker.birth} </span>
 
                                         </div>
-                                        <div className=' border-gray-300 flex flex-col w-[90%] h-16 ml-[10%]'>
-                                            <span className='text-red-900 '>Email Adress</span>
+                                        <div className='border-b border-gray-400 flex flex-col w-[90%] h-16 ml-[10%]'>
+                                            <span className='text-red-900 '>Phone Number:</span>
+                                            <span className='text-blue-950 text-lg'>{jobSeeker.phone}</span>
                                         </div>
-                                        <div className=' border-gray-300 flex flex-col w-[90%] h-16 ml-[10%]'>
-                                            <span className='text-red-900 '>Email Adress</span>
+                                        <div className='border-b border-gray-400 flex flex-col w-[90%] h-16 ml-[10%]'>
+                                            <span className='text-red-900 '>Email Adress :</span>
+                                            <span className='text-blue-950 text-lg'>{jobSeeker.email}</span>
                                         </div>
-                                        <div className=' border-gray-300 flex flex-col w-[90%] h-16 ml-[10%]'>
-                                            <span className='text-red-900 '>Email Adress</span>
-                                        </div>
+                                    
 
                                     </div>
 
@@ -88,7 +114,7 @@ const MyProfile = () => {
 
                                 </div>
 
-                                <div className='h-[35%] w-full p-2 overflow-hidden flex-col justify-center items-center '>
+                                <div className='h-[35%] w-full  overflow-hidden flex-col justify-center items-center '>
                                     <h5 className=' rounded text-pink-200  text-center w-full bg-blue-900'>SUMMARY</h5>
                                     <div className='w-full h-[25%] p-2'>
                                         <span className=' text-gray-500' >Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo inventore assumenda aliquam quisquam molestias hic quibusdam officiis quos porro molestiae laborum ullam ipsam, delectus, voluptatibus at odit deleniti, dolore in? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam repudiandae praesentium maxime fugiat doloremque. Id porro provident reprehenderit? Rerum illum nisi esse dolorem sint quod molestiae reiciendis eligendi atque excepturi!</span>
@@ -102,8 +128,8 @@ const MyProfile = () => {
                         </div >
                         {/* right bar */}
                         <div className='w-[65%] h-full  rounded '>
-                            <div className='rounded scrollbar-track-slate-400 h-full overflow-hidden overflow-y-scroll' style={{ scrollbarWidth: 'thin' }}>
-                                {[...Array(50)].map((photo) => <Col   ><JobCard />  </Col>)}
+                            <div className='rounded scrollbar-track-slate-400 h-full overflow-hidden ' style={{ scrollbarWidth: 'thin' }}>
+                                {/* {[...Array(50)].map((photo) => <Col   ><JobCard />  </Col>)} */}
                             </div>
                         </div>
                     </div>

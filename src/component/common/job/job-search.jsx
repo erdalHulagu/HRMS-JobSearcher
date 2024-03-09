@@ -9,25 +9,33 @@ import JobDetails from './job-details';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from '../../../helper/swal';
+import { useDispatch } from 'react-redux';
+import { setJob } from '../../../redux/store/slices/job-description-slice';
+import { getAllJob } from '../../../api/job/job';
 
-function JobSerach() {
+function JobSearch() {
     const [query, setQuery] = useState(false)
     const [search, setSearch] = useState("")
     const [loading, setLoading] = useState(false);
     const [jobs, setJobs] = useState([]);
-    const [selectedJob, setSelectedJob] = useState(null)
+    const [jobDetails, setJobDetails] = useState([])
+    const [displayJobDetails, setDisplayJobDetails] = useState(false);
 
-   
-        
-    
+
+
+
+
+
     useEffect(() => {
-    
+
         const fetchJobs = async () => {
             setLoading(true);
             try {
-                const resp = await axios.get("http://localhost:8080/jobs/all",{ params: { query: search } });
+                const resp = await (getAllJob, { params: { query: search } });
                 setJobs(resp.data);
-                
+
+
+
             } catch (err) {
                 console.log(err);
                 toast("try again")
@@ -35,22 +43,26 @@ function JobSerach() {
                 setLoading(false);
             }
         };
-    
+
         if (query) {
             fetchJobs();
+
         }
-    
+
         // fetchJobs();
-    },  [query, search]);
+    }, [query, search]);
 
 
     const handleSearch = () => {
         setQuery(true);
     };
-   
-    const handleJobCardClick = (job) => {
-        setSelectedJob(job); // Tıklanan işin detaylarını state'e ayarla
-    };
+
+    const handleOnClick = (jobId) => {
+        setDisplayJobDetails(true);
+        const selectedJob = jobs.find(job => job.id === jobId);
+        setJobDetails(selectedJob);
+    }
+
 
 
     return (
@@ -61,8 +73,8 @@ function JobSerach() {
                 {/* tap bar */}
                 <Navbar className="rounded-t  shadow-slate-900  shadow-md  h-40 w-full bg-purple-50 justify-content-between">
                     <Form className=' mx-10 w-[40%] ' >
-                        <InputGroup  className=' shadow-slate-900  shadow-md rounded'>
-                            <InputGroup.Text style={{background:'', color: 'gray', fontWeight: 'bold', fontSize: 'large' }} className=' h-20' id="basic-addon1">Job Name</InputGroup.Text>
+                        <InputGroup className=' shadow-slate-900  shadow-md rounded'>
+                            <InputGroup.Text style={{ background: '', color: 'gray', fontWeight: 'bold', fontSize: 'large' }} className=' h-20' id="basic-addon1">Job Name</InputGroup.Text>
                             <Form.Control className='bg-blue-900'
                                 placeholder="search"
                                 aria-label="Username"
@@ -93,21 +105,25 @@ function JobSerach() {
                 </Navbar>
             </div >
             {/* left bar */}
-            {/* <button onClick={fetchJobs} className='bg-red-900'>button</button> */}
-            <div className='h-[84%] w-full flex'>
-                <div className='scrollbar-track-slate-400 w-[50%] hover:h-full overflow-hidden overflow-y-scroll ' style={{ scrollbarWidth: 'thin' }}>
-                {jobs.map((job, index) => (<Col key={index}><JobCard  id={job.id}
-                            jobName={job.jobName}
-                            description={job.description}
-                            onClick={()=>handleJobCardClick(job)} job={job} /></Col>
+
+            <div className='h-[84%] flex  items-center w-full '>
+                <div className='w-[50%] max-w-md h-full overflow-hidden overflow-y-scroll  ' style={{ scrollbarWidth: 'thin' }}>
+                    {jobs.map((job) => (<JobCard
+                        key={job.id}
+                        job={job}
+                        onClick={handleOnClick}
+
+
+                    />
+                   
                     ))}
                 </div>
-{/* right bar */}
-                <div className=' h-full w-[50%] overflow-hidden overflow-y-scroll'  style={{ scrollbarWidth: 'thin' }} >
+                {/* right bar */}
+                <div className='min-w-md w-full h-[94%] overflow-hidden overflow-y-scroll' style={{ scrollbarWidth: 'thin' }} >
 
-                {selectedJob && <JobDetails job={selectedJob} id={selectedJob.id} 
-                                            jobName={selectedJob.jobName}
-                                            description={selectedJob.description}/>}
+                  { displayJobDetails && <JobDetails handleOnClick={handleOnClick} jobDetails={jobDetails}
+
+                    />}
 
                 </div>
 
@@ -116,11 +132,11 @@ function JobSerach() {
 
             </div >
 
-            
+
 
         </div>
 
     );
 }
 
-export default JobSerach;
+export default JobSearch;

@@ -1,5 +1,5 @@
 export const setting = {
-    apiURL : "../component/user/my-photos/friends.json",
+    apiURL : "http://localhost:8080",
     siteName: "Let's Rental Car",
     siteUrl : "letsrentalcar.com",
     email : "support@letsrentalcar.com",

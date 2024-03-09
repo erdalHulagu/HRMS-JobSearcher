@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import Register from '../register/register'
 import Login from '../login/login';
-import JobPost from '../job/job-post';
 import { useNavigate } from 'react-router-dom';
+import JobPost from '../job/job-post';
 
 const Menu = () => {
 

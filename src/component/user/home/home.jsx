@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import MyStatus from '../status/my-status';
 import Group from '../group/group-chat/group';
 import AddExsistingGroup from '../group/group-chat/comminity-group/create-existing-group/add-existing-comminity';
-import JobSerach from '../../common/job-search/job-search';
+import JobSearch from '../../common/job/job-search';
+
 
 
 
@@ -52,7 +53,7 @@ const Home = () => {
 
                 <div className=" h-[84vh] w-[94%] bg-gradient-to-b from-purple-100 via-slate-50 to-white absolute bottom-22  top-28 rounded  shadow-slate-900  shadow-xl " >
 
-                    <JobSerach />
+                    <JobSearch />
                     {/* <MyStatus/> */}
 
                     {/* <Group/> */}
