@@ -31,7 +31,7 @@ function JobSearch() {
         const fetchJobs = async () => {
             setLoading(true);
             try {
-                const resp = await (getAllJob, { params: { query: search } });
+                const resp = await getAllJob({ params: { query: search } });
                 setJobs(resp.data);
 
 

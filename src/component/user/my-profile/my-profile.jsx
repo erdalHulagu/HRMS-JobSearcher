@@ -28,7 +28,7 @@ const MyProfile = () => {
         const fetchJobSeeker = async () => {
             setLoading(true);
             try {
-                const resp = await axios.get("http://localhost:8080/jobSeekers/402");
+                const resp = await axios.get("http://localhost:8080/jobseekers/352");
                 setJobSeeker(resp.data);
             } catch (err) {
                 console.log(err);
