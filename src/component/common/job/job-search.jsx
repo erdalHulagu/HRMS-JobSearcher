@@ -107,7 +107,7 @@ function JobSearch() {
             {/* left bar */}
 
             <div className='h-[84%] flex  items-center w-full '>
-                <div className='w-[50%] max-w-md h-full overflow-hidden overflow-y-scroll  ' style={{ scrollbarWidth: 'thin' }}>
+                <div className='w-[50%] max-w-md h-full overflow-clip hover:overflow-y-scroll  ' style={{ scrollbarWidth: 'thin' }}>
                     {jobs.map((job) => (<JobCard
                         key={job.id}
                         job={job}

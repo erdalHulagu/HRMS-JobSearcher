@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { BiSolidLeftArrowSquare} from 'react-icons/bi'
-import { IoIosHome} from 'react-icons/io';
+import { BiSolidLeftArrowSquare } from 'react-icons/bi'
+import { IoIosHome } from 'react-icons/io';
 import { MdPhotoCamera } from 'react-icons/md';
-import { Col} from 'react-bootstrap'
+import { Col } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
 import { toast } from '../../../helper/swal';
 import axios from 'axios';
+import JobCard from '../../common/job/job-card';
 
 const MyProfile = () => {
     const navigate = useNavigate();
@@ -13,6 +14,9 @@ const MyProfile = () => {
     const [search, setSearch] = useState("")
     const [loading, setLoading] = useState(false);
     const [jobSeeker, setJobSeeker] = useState([]);
+    const [jobSeekersJob, setJobSeekersJob] = useState([]);
+
+
 
 
     //--------------------------------------
@@ -24,24 +28,33 @@ const MyProfile = () => {
         navigate("/");
     }
 
-    useEffect(() => {
-        const fetchJobSeeker = async () => {
-            setLoading(true);
-            try {
-                const resp = await axios.get("http://localhost:8080/jobseekers/352");
-                setJobSeeker(resp.data);
-            } catch (err) {
-                console.log(err);
-                toast("try again")
-            } finally {
-                setLoading(false);
-            }
-        };
+
+    const fetchJobSeeker = async () => {
+        setLoading(true);
+        try {
+            const resp = await axios.get("http://localhost:8080/jobseekers/402");
+            setJobSeeker(resp.data);
+        } catch (err) {
+            console.log(err);
+            toast("try again")
+        } finally {
+            setLoading(false);
+        }
+    };
+    const fetchApplyedJobOfJobSeeker = async () => {
+
+        try {
+
+        } catch (error) {
+
+        }
+    }
     
+    useEffect(() => {
         fetchJobSeeker();
-    }, [search]);
-// bunlari yapacagim
-   
+    }, []);
+    // bunlari yapacagim
+
 
 
     return (
@@ -67,7 +80,7 @@ const MyProfile = () => {
 
                     <div className='w-full h-full rounded flex'>
                         {/* left bar */}
-                        <div className='max-w-md w-[50%] h-full rounded border-r border-purple-50'>
+                        <div className='max-w-md w-[50%] h-full rounded border-r border-slate-300'>
                             <div className='w-full h-full flex-col flex items-center '>
                                 <div className='border-r w-full  h-[25%] top-0 flex flex-col justify-center rounded'>
 
@@ -84,7 +97,7 @@ const MyProfile = () => {
                                     <div className='w-[94%] flex flex-col  border-slate-400 mx-[3%] '>
 
                                         <div className='border-y border-gray-400 flex flex-col w-[90%] h-16 ml-[10%]'>
-                                            <span className='text-red-900 '>First Name </span>
+                                            <span className='text-red-900 '>First Name :</span>
                                             <span className='text-blue-950 text-lg '>{jobSeeker.firstName} </span>
 
                                         </div>
@@ -94,30 +107,30 @@ const MyProfile = () => {
 
                                         </div>
                                         <div className='border-b border-gray-400 flex flex-col w-[90%] h-16 ml-[10%]'>
-                                            <span className='text-red-900 '>Birth </span>
+                                            <span className='text-red-900 '>Birth : </span>
                                             <span className='text-blue-950 text-lg'>{jobSeeker.birth} </span>
 
                                         </div>
                                         <div className='border-b border-gray-400 flex flex-col w-[90%] h-16 ml-[10%]'>
-                                            <span className='text-red-900 '>Phone Number:</span>
+                                            <span className='text-red-900 '>Phone Number :</span>
                                             <span className='text-blue-950 text-lg'>{jobSeeker.phone}</span>
                                         </div>
                                         <div className='border-b border-gray-400 flex flex-col w-[90%] h-16 ml-[10%]'>
                                             <span className='text-red-900 '>Email Adress :</span>
                                             <span className='text-blue-950 text-lg'>{jobSeeker.email}</span>
                                         </div>
-                                    
+
 
                                     </div>
 
 
 
                                 </div>
+                                <h5 className=' rounded text-pink-200  text-center w-full bg-blue-900'>SUMMARY</h5>
+                                <div className='h-[35%] w-full hover:overflow-y-scroll justify-center items-center overflow-clip'>
 
-                                <div className='h-[35%] w-full  overflow-hidden flex-col justify-center items-center '>
-                                    <h5 className=' rounded text-pink-200  text-center w-full bg-blue-900'>SUMMARY</h5>
                                     <div className='w-full h-[25%] p-2'>
-                                        <span className=' text-gray-500' >Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo inventore assumenda aliquam quisquam molestias hic quibusdam officiis quos porro molestiae laborum ullam ipsam, delectus, voluptatibus at odit deleniti, dolore in? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam repudiandae praesentium maxime fugiat doloremque. Id porro provident reprehenderit? Rerum illum nisi esse dolorem sint quod molestiae reiciendis eligendi atque excepturi!</span>
+                                        <span className=' text-gray-500 ' >Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo inventore assumenda aliquam quisquam molestias hic quibusdam officiis quos porro molestiae laborum ullam ipsam, delectus, voluptatibus at odit deleniti, dolore in? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam repudiandae praesentium maxime fugiat doloremque. Id porro provident reprehenderit? Rerum illum nisi esse dolorem sint quod molestiae reiciendis eligendi atque excepturi!</span>
 
                                     </div>
 
