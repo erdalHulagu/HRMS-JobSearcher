@@ -41,17 +41,24 @@ const MyProfile = () => {
             setLoading(false);
         }
     };
-    const fetchApplyedJobOfJobSeeker = async () => {
-
+    const fetchAppliedJobs = async () => {
+        setLoading(true);
         try {
-
-        } catch (error) {
-
+            const resp = await axios.get(`http://localhost:8080/jobseekers/getAllJobs/402`);
+            setJobSeekersJob(resp.data);
+        console.log(resp.data);
+        } catch (err) {
+            console.log(err);
+            toast("Failed to fetch applied jobs. Please try again.");
+        } finally {
+            setLoading(false);
         }
-    }
+    };
+    
     
     useEffect(() => {
         fetchJobSeeker();
+        fetchAppliedJobs();
     }, []);
     // bunlari yapacagim
 
@@ -142,7 +149,7 @@ const MyProfile = () => {
                         {/* right bar */}
                         <div className='w-[65%] h-full  rounded '>
                             <div className='rounded scrollbar-track-slate-400 h-full overflow-hidden ' style={{ scrollbarWidth: 'thin' }}>
-                                {/* {[...Array(50)].map((photo) => <Col   ><JobCard />  </Col>)} */}
+                               {/* { jobSeekersJob.map((photo) => <Col   ><JobCard />  </Col>)} */}
                             </div>
                         </div>
                     </div>
