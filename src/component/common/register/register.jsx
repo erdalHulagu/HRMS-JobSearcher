@@ -36,6 +36,7 @@ const Register = () => {
         try {
             const resp = await axios.post("http://localhost:8080/jobSeekers/createJobSeeker", values);
             console.log(resp.data);
+            formik.resetForm();
             toast("jobSeeker created succesfully")
 
         } catch (err) {

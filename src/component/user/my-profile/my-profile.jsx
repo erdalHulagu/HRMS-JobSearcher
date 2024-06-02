@@ -34,9 +34,10 @@ const MyProfile = () => {
         try {
             const resp = await axios.get("http://localhost:8080/jobseekers/402");
             setJobSeeker(resp.data);
+            toast("login success")
         } catch (err) {
             console.log(err);
-            toast("try again")
+            toast("Please try again")
         } finally {
             setLoading(false);
         }
@@ -149,7 +150,7 @@ const MyProfile = () => {
                         {/* right bar */}
                         <div className='w-[65%] h-full  rounded '>
                             <div className='rounded scrollbar-track-slate-400 h-full overflow-hidden ' style={{ scrollbarWidth: 'thin' }}>
-                               {/* { jobSeekersJob.map((photo) => <Col   ><JobCard />  </Col>)} */}
+                               { jobSeekersJob.map((photo) => <Col   ><JobCard />  </Col>)}
                             </div>
                         </div>
                     </div>
